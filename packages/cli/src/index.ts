@@ -16,7 +16,7 @@ skills-dir   folder holding skills (any folder with a SKILL.md); default .claude
 --update     accept added, removed or changed skills into an existing lockfile
 
 verify exits with code 1 when a skill was added, removed or changed, so CI fails.
-scan exits with code 1 when it finds something (today: hidden Unicode characters).`;
+scan exits with code 1 when it finds something (remote code in install steps, hidden Unicode).`;
 
 function printDiff(d: LockDiff): void {
   for (const n of d.changed) console.log(`  changed  ${n}`);

@@ -6,11 +6,50 @@ export interface Finding {
   skill: string;
   /** file inside the skill */
   file: string;
-  rule: "hidden-unicode";
+  rule: "hidden-unicode" | RemoteCodeRule;
   line: number;
   /** 1-based, counted in characters (code points) */
   column: number;
   detail: string;
+}
+
+export type RemoteCodeRule = "pipe-to-shell" | "shell-runs-download" | "download-and-run" | "registry-override";
+
+export interface RemoteCodeHit { line: number; column: number; rule: RemoteCodeRule; snippet: string }
+
+const FETCH = String.raw`(?:curl|wget|iwr|irm|Invoke-WebRequest|Invoke-RestMethod)`;
+const OFFICIAL_REGISTRY = String.raw`(?!https?://(?:registry\.npmjs\.org|registry\.yarnpkg\.com|pypi\.org|files\.pythonhosted\.org)(?:[/\s]|$))`;
+
+// Install steps that run code fetched at run time, or quietly move package installs to another
+// registry. Checked in this order; one finding per line. Each pattern names a concrete command shape,
+// so plain API calls (`curl https://api...`, `curl ... | jq`) are not flagged.
+const REMOTE_CODE: [RemoteCodeRule, RegExp][] = [
+  ["shell-runs-download", new RegExp(String.raw`\b(?:sh|bash|zsh|dash)\s+(?:-c\s+)?["']?\$\(\s*${FETCH}\b|<\(\s*${FETCH}\b|\b(?:iex|Invoke-Expression)\b[^\n]*\b(?:DownloadString|${FETCH})\b`, "i")],
+  ["pipe-to-shell", new RegExp(String.raw`\b${FETCH}\b[^\n|]*\|\s*(?:sudo\s+(?:-\S+\s+)*)?(?:sh|bash|zsh|dash|ksh|python3?|perl|ruby|node|iex|Invoke-Expression|pwsh|powershell)\b`, "i")],
+  // a curl/wget followed on the same line by `chmod +x` or by running `./something`
+  ["download-and-run", /\b(?:curl|wget)\b[^\n]*(?:&&|;)[^\n]*(?:\bchmod\s+\+x\b|(?:&&|;)\s*\.\/\S)/i],
+  [
+    "registry-override",
+    new RegExp(
+      String.raw`\bnpm\s+config\s+set\s+(?:@\S+:)?registry\b|--registry[=\s]+${OFFICIAL_REGISTRY}\S|\bpip3?\s+config\s+set\s+\S*index-url\b|--(?:extra-)?index-url[=\s]+${OFFICIAL_REGISTRY}\S|\bgit\s+config\b[^\n]*\binsteadOf\b|/etc/apt/sources\.list`,
+      "i",
+    ),
+  ],
+];
+
+/** Lines that fetch and run code, or redirect a package manager to another registry. */
+export function findRemoteCode(text: string): RemoteCodeHit[] {
+  const out: RemoteCodeHit[] = [];
+  text.split(/\r?\n/).forEach((lineText, i) => {
+    for (const [rule, re] of REMOTE_CODE) {
+      const m = re.exec(lineText);
+      if (!m) continue;
+      const snippet = lineText.trim();
+      out.push({ line: i + 1, column: [...lineText.slice(0, m.index)].length + 1, rule, snippet: snippet.length > 120 ? `${snippet.slice(0, 117)}...` : snippet });
+      break;
+    }
+  });
+  return out;
 }
 
 export interface HiddenChar { line: number; column: number; codePoint: string; name: string }
@@ -86,7 +125,11 @@ export function scanSkillFolders(skills: Record<string, string>): Finding[] {
       const buf = readFileSync(path);
       if (buf.includes(0)) continue;
       const file = relative(dir, path).split("\\").join("/");
-      for (const h of findHiddenUnicode(buf.toString("utf8"))) {
+      const text = buf.toString("utf8");
+      for (const r of findRemoteCode(text)) {
+        findings.push({ skill, file, rule: r.rule, line: r.line, column: r.column, detail: r.snippet });
+      }
+      for (const h of findHiddenUnicode(text)) {
         findings.push({ skill, file, rule: "hidden-unicode", line: h.line, column: h.column, detail: `${h.codePoint} ${h.name}` });
       }
     }
