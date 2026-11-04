@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { lockSkills, verifySkills, type LockDiff } from "@skill-lock/core";
+import { lockSkills, scanSkills, verifySkills, type LockDiff } from "@skill-lock/core";
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { parseArgs } from "node:util";
@@ -9,12 +9,14 @@ const USAGE = `skill-lock 0.0.0 (lite)
 Usage:
   skill-lock lock [skills-dir] [--update] [--lockfile <path>]
   skill-lock verify [skills-dir] [--lockfile <path>]
+  skill-lock scan [skills-dir]
 
 skills-dir   folder holding skills (any folder with a SKILL.md); default .claude/skills
 --lockfile   default skills.lock.json in the current folder
 --update     accept added, removed or changed skills into an existing lockfile
 
-verify exits with code 1 when a skill was added, removed or changed, so CI fails.`;
+verify exits with code 1 when a skill was added, removed or changed, so CI fails.
+scan exits with code 1 when it finds something (today: hidden Unicode characters).`;
 
 function printDiff(d: LockDiff): void {
   for (const n of d.changed) console.log(`  changed  ${n}`);
@@ -29,7 +31,7 @@ function main(argv: string[]): number {
     options: { update: { type: "boolean" }, lockfile: { type: "string" }, help: { type: "boolean", short: "h" } },
   });
   const [command, dir = ".claude/skills"] = positionals;
-  if (values.help || (command !== "lock" && command !== "verify")) {
+  if (values.help || !["lock", "verify", "scan"].includes(command)) {
     console.log(USAGE);
     return values.help ? 0 : 1;
   }
@@ -39,6 +41,13 @@ function main(argv: string[]): number {
     return 1;
   }
   const lockPath = resolve(values.lockfile ?? "skills.lock.json");
+
+  if (command === "scan") {
+    const findings = scanSkills(root);
+    for (const f of findings) console.log(`${f.skill}/${f.file}:${f.line}:${f.column}  ${f.rule}  ${f.detail}`);
+    console.log(findings.length ? `${findings.length} finding(s).` : "No findings.");
+    return findings.length ? 1 : 0;
+  }
 
   if (command === "lock") {
     const { written, diff } = lockSkills(root, lockPath, { update: values.update });

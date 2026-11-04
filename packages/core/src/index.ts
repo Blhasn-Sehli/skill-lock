@@ -1,6 +1,9 @@
 import { createHash } from "node:crypto";
 import { existsSync, lstatSync, readdirSync, readFileSync, readlinkSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
+import { scanSkillFolders, type Finding } from "./scan.js";
+
+export * from "./scan.js";
 
 const posix = (p: string) => p.split("\\").join("/");
 
@@ -110,4 +113,10 @@ export function verifySkills(root: string, lockPath: string): { ok: boolean; dif
   if (!locked) return { ok: false, error: `no lockfile at ${lockPath}; run "skill-lock lock" first` };
   const diff = diffLock(locked.skills, createLock(findSkills(root)));
   return { ok: !hasChanges(diff), diff };
+}
+
+
+/** Scan every skill under root (see scan.ts for the rules). */
+export function scanSkills(root: string): Finding[] {
+  return scanSkillFolders(findSkills(root));
 }
