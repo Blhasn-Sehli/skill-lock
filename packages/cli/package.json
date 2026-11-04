@@ -1,2 +1,16 @@
-{ "name": "@skill-lock/cli", "version": "0.0.0", "type": "module", "main": "dist/index.js", "types": "dist/index.d.ts",
-  "scripts": { "build": "tsc -p tsconfig.json" }, "dependencies": { "@skill-lock/core": "workspace:*" } }
+{
+  "name": "@skill-lock/cli",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@skill-lock/core": "workspace:*"
+  },
+  "bin": {
+    "skill-lock": "dist/index.js"
+  }
+}
