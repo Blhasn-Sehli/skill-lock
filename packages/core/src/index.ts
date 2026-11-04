@@ -77,7 +77,9 @@ export function diffLock(locked: Lock, current: Lock): LockDiff {
   return d;
 }
 
-export interface LockFile { version: 1; skills: Lock }
+export const LOCKFILE_SCHEMA_URL = "https://raw.githubusercontent.com/Blhasn-Sehli/skill-lock/main/schema/skills.lock.schema.json";
+
+export interface LockFile { $schema?: string; version: 1; skills: Lock }
 
 function readLockFile(path: string): LockFile | undefined {
   if (!existsSync(path)) return undefined;
@@ -97,7 +99,7 @@ export function lockSkills(root: string, lockPath: string, opts: { update?: bool
   const previous = readLockFile(lockPath);
   const diff = diffLock(previous?.skills ?? {}, current);
   if (previous && hasChanges(diff) && !opts.update) return { written: false, diff };
-  const file: LockFile = { version: 1, skills: Object.fromEntries(Object.entries(current).sort(([a], [b]) => a.localeCompare(b))) };
+  const file: LockFile = { $schema: LOCKFILE_SCHEMA_URL, version: 1, skills: Object.fromEntries(Object.entries(current).sort(([a], [b]) => a.localeCompare(b))) };
   writeFileSync(lockPath, JSON.stringify(file, null, 2) + "\n");
   return { written: true, diff };
 }

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Blhasn-Sehli/skill-lock/main/schema/skills.lock.schema.json",
+  "title": "skill-lock lockfile",
+  "description": "Content hashes of agent skills (folders holding a SKILL.md). `skill-lock verify` fails when a skill on disk no longer matches.",
+  "type": "object",
+  "required": ["version", "skills"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "description": "Optional link to this schema, for editors.",
+      "type": "string"
+    },
+    "version": {
+      "description": "Lockfile format version.",
+      "const": 1
+    },
+    "skills": {
+      "description": "One entry per skill, keyed by its folder path relative to the skills folder, with forward slashes.",
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^(?!/)(?!.*\\\\)(?!.*(^|/)\\.\\.(/|$)).+$"
+      },
+      "additionalProperties": {
+        "description": "sha256 over every file's path and content in the skill folder, sorted; text files use LF line endings and symlinks are hashed as their target path.",
+        "type": "string",
+        "pattern": "^sha256-[0-9a-f]{64}$"
+      }
+    }
+  }
+}

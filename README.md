@@ -11,7 +11,9 @@ Lite, early. What works today:
 
 How a skill is hashed: sha256 over every file's path and content, sorted. Text files are hashed with LF line endings, so Windows and Linux checkouts match. Symlinks are hashed as their target path and never followed.
 
-Not built yet: the scanner (hidden Unicode, install steps that fetch binaries, hardcoded credentials, unexpected network hosts), the lockfile JSON Schema, and the runtime guard.
+The lockfile format is described by a JSON Schema in [`schema/skills.lock.schema.json`](schema/skills.lock.schema.json), so other tools can read and check it; lockfiles link to it through `$schema`.
+
+Not built yet: the scanner (hidden Unicode, install steps that fetch binaries, hardcoded credentials, unexpected network hosts) and the runtime guard.
 
 ## Try it
 
