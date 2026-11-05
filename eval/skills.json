@@ -1,0 +1,48 @@
+[
+  {
+    "repo": "anthropics/skills",
+    "commit": "ca45fc496a3436251f191354091d557da31c15b5",
+    "skills": [
+      "skills/academy-guide",
+      "skills/algorithmic-art",
+      "skills/brand-guidelines",
+      "skills/canvas-design",
+      "skills/claude-api",
+      "skills/discernment-nudge",
+      "skills/doc-coauthoring",
+      "skills/docx",
+      "skills/frontend-design",
+      "skills/internal-comms",
+      "skills/mcp-builder",
+      "skills/pdf",
+      "skills/pptx",
+      "skills/skill-creator",
+      "skills/slack-gif-creator",
+      "skills/theme-factory",
+      "skills/web-artifacts-builder",
+      "skills/webapp-testing",
+      "skills/xlsx"
+    ]
+  },
+  {
+    "repo": "obra/superpowers",
+    "commit": "22f0b463e7a5e579904dd6211a520321035526f7",
+    "skills": [
+      "skills/brainstorming",
+      "skills/diagnosing-superpowers",
+      "skills/dispatching-parallel-agents",
+      "skills/executing-plans",
+      "skills/finishing-a-development-branch",
+      "skills/receiving-code-review",
+      "skills/requesting-code-review",
+      "skills/subagent-driven-development",
+      "skills/systematic-debugging",
+      "skills/test-driven-development",
+      "skills/using-git-worktrees",
+      "skills/using-superpowers",
+      "skills/verification-before-completion",
+      "skills/writing-plans",
+      "skills/writing-skills"
+    ]
+  }
+]

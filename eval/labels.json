@@ -1,0 +1,242 @@
+[
+  {
+    "id": "anthropics/skills/skills/academy-guide",
+    "label": "benign",
+    "reason": "Instructions only, no scripts.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "anthropics/skills/skills/algorithmic-art",
+    "label": "risky",
+    "reason": "1 script(s) that can starts programs; expected for what the skill does.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "anthropics/skills/skills/brand-guidelines",
+    "label": "benign",
+    "reason": "Instructions only, no scripts.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "anthropics/skills/skills/canvas-design",
+    "label": "benign",
+    "reason": "Instructions only, no scripts.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "anthropics/skills/skills/claude-api",
+    "label": "risky",
+    "reason": "4 script(s) that can network; expected for what the skill does.",
+    "scanFindings": [
+      "pipe-to-shell (false alarm: the line warns against running curl | sh)"
+    ],
+    "reviewed": false
+  },
+  {
+    "id": "anthropics/skills/skills/discernment-nudge",
+    "label": "benign",
+    "reason": "Instructions only, no scripts.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "anthropics/skills/skills/doc-coauthoring",
+    "label": "benign",
+    "reason": "Instructions only, no scripts.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "anthropics/skills/skills/docx",
+    "label": "risky",
+    "reason": "15 script(s) that can network, starts programs, deletes files; expected for what the skill does.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "anthropics/skills/skills/frontend-design",
+    "label": "benign",
+    "reason": "Instructions only, no scripts.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "anthropics/skills/skills/internal-comms",
+    "label": "benign",
+    "reason": "Instructions only, no scripts.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "anthropics/skills/skills/mcp-builder",
+    "label": "risky",
+    "reason": "2 script(s) that can network; expected for what the skill does.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "anthropics/skills/skills/pdf",
+    "label": "benign",
+    "reason": "8 script(s) with no network, program or delete calls.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "anthropics/skills/skills/pptx",
+    "label": "risky",
+    "reason": "15 script(s) that can network, starts programs, deletes files; expected for what the skill does.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "anthropics/skills/skills/skill-creator",
+    "label": "risky",
+    "reason": "10 script(s) that can network, starts programs, deletes files; expected for what the skill does.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "anthropics/skills/skills/slack-gif-creator",
+    "label": "benign",
+    "reason": "4 script(s) with no network, program or delete calls.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "anthropics/skills/skills/theme-factory",
+    "label": "benign",
+    "reason": "Instructions only, no scripts.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "anthropics/skills/skills/web-artifacts-builder",
+    "label": "risky",
+    "reason": "2 script(s) that can network, deletes files; expected for what the skill does.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "anthropics/skills/skills/webapp-testing",
+    "label": "risky",
+    "reason": "4 script(s) that can network, starts programs; expected for what the skill does.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "anthropics/skills/skills/xlsx",
+    "label": "risky",
+    "reason": "12 script(s) that can network, starts programs, deletes files; expected for what the skill does.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "obra/superpowers/skills/brainstorming",
+    "label": "risky",
+    "reason": "4 script(s) that can network, starts programs, deletes files; expected for what the skill does.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "obra/superpowers/skills/diagnosing-superpowers",
+    "label": "benign",
+    "reason": "Instructions only, no scripts.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "obra/superpowers/skills/dispatching-parallel-agents",
+    "label": "benign",
+    "reason": "Instructions only, no scripts.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "obra/superpowers/skills/executing-plans",
+    "label": "benign",
+    "reason": "Instructions only, no scripts.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "obra/superpowers/skills/finishing-a-development-branch",
+    "label": "benign",
+    "reason": "Instructions only, no scripts.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "obra/superpowers/skills/receiving-code-review",
+    "label": "benign",
+    "reason": "Instructions only, no scripts.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "obra/superpowers/skills/requesting-code-review",
+    "label": "benign",
+    "reason": "Instructions only, no scripts.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "obra/superpowers/skills/subagent-driven-development",
+    "label": "benign",
+    "reason": "Instructions only, no scripts.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "obra/superpowers/skills/systematic-debugging",
+    "label": "benign",
+    "reason": "2 script(s) with no network, program or delete calls.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "obra/superpowers/skills/test-driven-development",
+    "label": "benign",
+    "reason": "Instructions only, no scripts.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "obra/superpowers/skills/using-git-worktrees",
+    "label": "benign",
+    "reason": "Instructions only, no scripts.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "obra/superpowers/skills/using-superpowers",
+    "label": "benign",
+    "reason": "Instructions only, no scripts.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "obra/superpowers/skills/verification-before-completion",
+    "label": "benign",
+    "reason": "Instructions only, no scripts.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "obra/superpowers/skills/writing-plans",
+    "label": "benign",
+    "reason": "Instructions only, no scripts.",
+    "scanFindings": [],
+    "reviewed": false
+  },
+  {
+    "id": "obra/superpowers/skills/writing-skills",
+    "label": "risky",
+    "reason": "1 script(s) that can starts programs; expected for what the skill does.",
+    "scanFindings": [],
+    "reviewed": false
+  }
+]
