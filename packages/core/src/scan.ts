@@ -6,7 +6,7 @@ export interface Finding {
   skill: string;
   /** file inside the skill */
   file: string;
-  rule: "hidden-unicode" | RemoteCodeRule;
+  rule: "hidden-unicode" | "secret" | "suspicious-host" | RemoteCodeRule;
   line: number;
   /** 1-based, counted in characters (code points) */
   column: number;
@@ -129,10 +129,85 @@ export function scanSkillFolders(skills: Record<string, string>): Finding[] {
       for (const r of findRemoteCode(text)) {
         findings.push({ skill, file, rule: r.rule, line: r.line, column: r.column, detail: r.snippet });
       }
+      // A secret's value is never printed, only its kind, so scan output in CI logs does not leak it.
+      for (const h of findSecrets(text)) {
+        findings.push({ skill, file, rule: "secret", line: h.line, column: h.column, detail: h.kind });
+      }
+      for (const h of findSuspiciousHosts(text)) {
+        findings.push({ skill, file, rule: "suspicious-host", line: h.line, column: h.column, detail: `${h.kind}: ${h.host}` });
+      }
       for (const h of findHiddenUnicode(text)) {
         findings.push({ skill, file, rule: "hidden-unicode", line: h.line, column: h.column, detail: `${h.codePoint} ${h.name}` });
       }
     }
   }
-  return findings;
+  return findings.sort((a, b) => a.skill.localeCompare(b.skill) || a.file.localeCompare(b.file) || a.line - b.line || a.column - b.column);
+}
+
+export interface SecretHit { line: number; column: number; kind: string }
+
+// Well-known credential formats only (no "password = ..." guessing), so a hit is almost always a real
+// key. Anthropic is checked before OpenAI because both start with "sk-".
+const SECRETS: [string, RegExp][] = [
+  ["private key", /-----BEGIN (?:[A-Z]+ )?PRIVATE KEY-----/],
+  ["AWS access key", /\b(?:AKIA|ASIA)[0-9A-Z]{16}\b/],
+  ["GitHub token", /\b(?:gh[pousr]_[A-Za-z0-9]{36,}|github_pat_[A-Za-z0-9_]{60,})/],
+  ["Slack token", /\bxox[abposr]-[A-Za-z0-9-]{10,}/],
+  ["Stripe live key", /\b(?:sk|rk)_live_[A-Za-z0-9]{20,}/],
+  ["Google API key", /\bAIza[0-9A-Za-z_-]{35}\b/],
+  ["Anthropic key", /\bsk-ant-[A-Za-z0-9_-]{20,}/],
+  ["OpenAI key", /\bsk-(?:proj-)?[A-Za-z0-9_-]{32,}/],
+];
+
+/** Documentation placeholders such as AKIAIOSFODNN7EXAMPLE or ghp_xxxx... are not secrets. */
+const isPlaceholder = (match: string) => /EXAMPLE|your|<|\.\.\./i.test(match) || /([xX*0])\1{11,}/.test(match);
+
+/** Credentials in a well-known format, one finding per line. */
+export function findSecrets(text: string): SecretHit[] {
+  const out: SecretHit[] = [];
+  text.split(/\r?\n/).forEach((lineText, i) => {
+    for (const [kind, re] of SECRETS) {
+      const m = re.exec(lineText);
+      if (!m || isPlaceholder(m[0])) continue;
+      out.push({ line: i + 1, column: [...lineText.slice(0, m.index)].length + 1, kind });
+      break;
+    }
+  });
+  return out;
+}
+
+export interface HostHit { line: number; column: number; kind: string; host: string }
+
+const SHORTENERS = ["bit.ly", "tinyurl.com", "t.co", "goo.gl", "is.gd", "cutt.ly", "rebrand.ly", "ow.ly", "shorturl.at", "rb.gy"];
+const DATA_CATCHERS = ["webhook.site", "requestbin.net", "requestbin.com", "pipedream.net", "transfer.sh", "file.io", "0x0.st", "interact.sh", "oast.fun", "oast.pro", "burpcollaborator.net"];
+const TUNNELS = ["ngrok.io", "ngrok.app", "ngrok-free.app", "trycloudflare.com", "loca.lt", "serveo.net"];
+const PASTES = ["pastebin.com", "paste.ee", "hastebin.com", "rentry.co", "ghostbin.com"];
+
+const onDomain = (host: string, domains: string[]) => domains.some((d) => host === d || host.endsWith(`.${d}`));
+
+function isPrivateIp(ip: string): boolean {
+  const [a, b] = ip.split(".").map(Number);
+  return a === 10 || a === 127 || a === 0 || (a === 192 && b === 168) || (a === 172 && b >= 16 && b <= 31) || (a === 169 && b === 254);
+}
+
+/**
+ * URLs a skill should rarely need: raw public IP addresses, link shorteners (hide the destination),
+ * tunnels, paste sites, and services that catch posted data (a common exfiltration target).
+ */
+export function findSuspiciousHosts(text: string): HostHit[] {
+  const out: HostHit[] = [];
+  text.split(/\r?\n/).forEach((lineText, i) => {
+    for (const m of lineText.matchAll(/\bhttps?:\/\/([^/\s:"'`)>\]]+)(?::\d+)?(\/[^\s"'`)>\]]*)?/gi)) {
+      const host = m[1].toLowerCase();
+      const path = m[2] ?? "";
+      let kind: string | undefined;
+      if (/^\d{1,3}(?:\.\d{1,3}){3}$/.test(host)) kind = isPrivateIp(host) ? undefined : "raw IP address";
+      else if (onDomain(host, SHORTENERS)) kind = "link shortener";
+      else if (onDomain(host, DATA_CATCHERS) || (onDomain(host, ["discord.com", "discordapp.com"]) && path.startsWith("/api/webhooks"))) kind = "data-catching host";
+      else if (onDomain(host, TUNNELS)) kind = "tunnel";
+      else if (onDomain(host, PASTES)) kind = "paste site";
+      if (kind) out.push({ line: i + 1, column: [...lineText.slice(0, m.index)].length + 1, kind, host });
+    }
+  });
+  return out;
 }
