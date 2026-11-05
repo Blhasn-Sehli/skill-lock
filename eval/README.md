@@ -27,6 +27,27 @@ The current labels are **pre-labels**: produced by that rule from a scan of each
 
 Recall cannot be measured yet: both sources are reputable, so there is nothing malicious to catch.
 
+## Hostile samples (written for this set)
+
+[`hostile/`](hostile/) holds 8 small malicious skills written for this set. They are harmless by construction: every host is on a reserved domain (`.invalid`) or a test endpoint, and nothing runs them. Five match one scanner rule each; three are built to slip past the current rules, to show their limits honestly.
+
+| Sample | What it does | Caught |
+| --- | --- | --- |
+| `pipe-installer` | `curl ... \| bash` install step | yes (pipe-to-shell) |
+| `hidden-instruction` | instruction hidden behind zero-width and bidi characters | yes (hidden-unicode) |
+| `leaked-token` | a GitHub token in the text | yes (secret) |
+| `exfil-webhook` | posts `.env` to webhook.site | yes (suspicious-host) |
+| `registry-swap` | `npm config set registry` to another host | yes (registry-override) |
+| `encoded-command` | base64-encoded `curl \| sh` | **no** |
+| `split-download` | download to a file, then run it on the next line | **no** |
+| `prose-exfil` | asks the agent in plain English to paste `~/.ssh/id_rsa` | **no** |
+
+## First numbers (Nov 5, 34 public + 8 hostile skills)
+
+- **Recall:** 5 of 8 hostile skills flagged (62.5%). The three misses are the ones built to show the rules' limits.
+- **Precision:** 6 skills flagged, 5 of them hostile (83%). The wrong one is the `claude-api` warning line above.
+- These are first numbers on a small set, mostly reputable skills and samples written by the same person who wrote the rules. They show direction, not real-world accuracy.
+
 ## Next
 
 - Review the 34 pre-labels by hand.
