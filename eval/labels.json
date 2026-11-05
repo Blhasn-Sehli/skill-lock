@@ -4,239 +4,273 @@
     "label": "benign",
     "reason": "Instructions only, no scripts.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "anthropics/skills/skills/algorithmic-art",
-    "label": "risky",
-    "reason": "1 script(s) that can starts programs; expected for what the skill does.",
+    "label": "benign",
+    "reason": "One template script; the only \"exec\" is a regular-expression call, not a program. Relabelled from risky on review.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "anthropics/skills/skills/brand-guidelines",
     "label": "benign",
     "reason": "Instructions only, no scripts.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "anthropics/skills/skills/canvas-design",
     "label": "benign",
     "reason": "Instructions only, no scripts.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "anthropics/skills/skills/claude-api",
     "label": "risky",
-    "reason": "4 script(s) that can network; expected for what the skill does.",
+    "reason": "Example scripts call the Anthropic API (api.anthropic.com). Legitimate for an API skill.",
     "scanFindings": [
       "pipe-to-shell (false alarm: the line warns against running curl | sh)"
     ],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "anthropics/skills/skills/discernment-nudge",
     "label": "benign",
     "reason": "Instructions only, no scripts.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "anthropics/skills/skills/doc-coauthoring",
     "label": "benign",
     "reason": "Instructions only, no scripts.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "anthropics/skills/skills/docx",
     "label": "risky",
-    "reason": "15 script(s) that can network, starts programs, deletes files; expected for what the skill does.",
+    "reason": "Scripts start LibreOffice (soffice), git and a C compiler to convert and check documents. Legitimate.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "anthropics/skills/skills/frontend-design",
     "label": "benign",
     "reason": "Instructions only, no scripts.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "anthropics/skills/skills/internal-comms",
     "label": "benign",
     "reason": "Instructions only, no scripts.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "anthropics/skills/skills/mcp-builder",
     "label": "risky",
-    "reason": "2 script(s) that can network; expected for what the skill does.",
+    "reason": "Evaluation script connects to an MCP server URL the user passes and calls a model. Legitimate.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "anthropics/skills/skills/pdf",
     "label": "benign",
     "reason": "8 script(s) with no network, program or delete calls.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "anthropics/skills/skills/pptx",
     "label": "risky",
-    "reason": "15 script(s) that can network, starts programs, deletes files; expected for what the skill does.",
+    "reason": "Scripts start LibreOffice, pdftoppm, git and a C compiler to render and check slides. Legitimate.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "anthropics/skills/skills/skill-creator",
     "label": "risky",
-    "reason": "10 script(s) that can network, starts programs, deletes files; expected for what the skill does.",
+    "reason": "Runs a local review server (localhost), checks ports with lsof, loads Google Fonts. Legitimate.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "anthropics/skills/skills/slack-gif-creator",
     "label": "benign",
     "reason": "4 script(s) with no network, program or delete calls.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "anthropics/skills/skills/theme-factory",
     "label": "benign",
     "reason": "Instructions only, no scripts.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "anthropics/skills/skills/web-artifacts-builder",
     "label": "risky",
-    "reason": "2 script(s) that can network, deletes files; expected for what the skill does.",
+    "reason": "Build scripts delete their own output (dist, bundle.html). Legitimate.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "anthropics/skills/skills/webapp-testing",
     "label": "risky",
-    "reason": "4 script(s) that can network, starts programs; expected for what the skill does.",
+    "reason": "Drives a browser against servers on localhost. Legitimate.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "anthropics/skills/skills/xlsx",
     "label": "risky",
-    "reason": "12 script(s) that can network, starts programs, deletes files; expected for what the skill does.",
+    "reason": "Scripts start LibreOffice, git and a C compiler to recalculate and check spreadsheets. Legitimate.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "obra/superpowers/skills/brainstorming",
     "label": "risky",
-    "reason": "4 script(s) that can network, starts programs, deletes files; expected for what the skill does.",
+    "reason": "Local server on the user machine; loads a logo image from primeradiant.com; deletes its own session files. Legitimate.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "obra/superpowers/skills/diagnosing-superpowers",
     "label": "benign",
     "reason": "Instructions only, no scripts.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "obra/superpowers/skills/dispatching-parallel-agents",
     "label": "benign",
     "reason": "Instructions only, no scripts.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "obra/superpowers/skills/executing-plans",
     "label": "benign",
     "reason": "Instructions only, no scripts.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "obra/superpowers/skills/finishing-a-development-branch",
     "label": "benign",
     "reason": "Instructions only, no scripts.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "obra/superpowers/skills/receiving-code-review",
     "label": "benign",
     "reason": "Instructions only, no scripts.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "obra/superpowers/skills/requesting-code-review",
     "label": "benign",
     "reason": "Instructions only, no scripts.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "obra/superpowers/skills/subagent-driven-development",
     "label": "benign",
     "reason": "Instructions only, no scripts.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "obra/superpowers/skills/systematic-debugging",
     "label": "benign",
     "reason": "2 script(s) with no network, program or delete calls.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "obra/superpowers/skills/test-driven-development",
     "label": "benign",
     "reason": "Instructions only, no scripts.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "obra/superpowers/skills/using-git-worktrees",
     "label": "benign",
     "reason": "Instructions only, no scripts.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "obra/superpowers/skills/using-superpowers",
     "label": "benign",
     "reason": "Instructions only, no scripts.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "obra/superpowers/skills/verification-before-completion",
     "label": "benign",
     "reason": "Instructions only, no scripts.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "obra/superpowers/skills/writing-plans",
     "label": "benign",
     "reason": "Instructions only, no scripts.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   },
   {
     "id": "obra/superpowers/skills/writing-skills",
     "label": "risky",
-    "reason": "1 script(s) that can starts programs; expected for what the skill does.",
+    "reason": "render-graphs.js starts an external program (execFileSync) to draw diagrams. Legitimate.",
     "scanFindings": [],
-    "reviewed": false
+    "reviewed": true,
+    "reviewedBy": "Claude, Nov 5 (scripts read for hosts, programs and deletions); MpK to spot-check"
   }
 ]

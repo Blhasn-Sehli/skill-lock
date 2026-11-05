@@ -19,7 +19,7 @@ Public agent skills, labelled by hand, to measure the scanner's precision and re
 - **risky:** scripts that can reach the network, start programs or delete files. Usually legitimate (a document converter starts LibreOffice), but a reviewer should know before installing.
 - **malicious:** written to harm the user, for example to steal credentials or run hidden code.
 
-The current labels are **pre-labels**: produced by that rule from a scan of each skill's scripts, then to be checked by hand. So far: 23 benign, 11 risky, 0 malicious.
+Labels were first produced by that rule, then reviewed on Nov 5 by reading what each risky skill's scripts connect to, start and delete (one rule-based label changed: `algorithmic-art` is benign; its only "exec" is a regular-expression call). Now: 24 benign, 10 risky, 0 malicious, all risky ones legitimate for what the skill does. A second reviewer (MpK) still spot-checks.
 
 ## First scanner result
 
