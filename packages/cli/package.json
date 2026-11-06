@@ -1,5 +1,5 @@
 {
-  "name": "skill-lock",
+  "name": "@mpkk/skill-lock",
   "version": "0.1.0",
   "description": "A lockfile for agent skills: pin every SKILL.md folder by content hash, fail CI when one changes, and scan skills for remote code, secrets, suspicious hosts and hidden Unicode.",
   "keywords": [

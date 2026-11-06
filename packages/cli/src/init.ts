@@ -26,7 +26,7 @@ export function detectSkillsDir(cwd: string): Detected | undefined {
 
 /** The CI workflow `init` writes. The folder goes through an env var, so no path is ever pasted into a shell command. */
 export function workflowYaml(dir: string, version: string): string {
-  const run = `npx --yes skill-lock@${version}`;
+  const run = `npx --yes @mpkk/skill-lock@${version}`;
   return `# Written by "skill-lock init". Fails a pull request when a skill changed without an updated
 # skills.lock.json, and scans skills for remote code, secrets, suspicious hosts and hidden Unicode.
 # The CLI version is pinned on purpose; bump it here to upgrade.
@@ -95,7 +95,7 @@ export function runInit(opts: InitOptions): number {
     const found = detectSkillsDir(cwd);
     if (!found) {
       log(`No skills folder found (looked for ${SKILL_DIRS.join(", ")}).`);
-      log("Pass the folder that holds your skills: npx skill-lock init --dir <folder>");
+      log("Pass the folder that holds your skills: npx @mpkk/skill-lock init --dir <folder>");
       return 1;
     }
     dir = found.dir;
@@ -133,7 +133,7 @@ export function runInit(opts: InitOptions): number {
 
   log("");
   if (code !== 0) {
-    log(`Next: review the changes above, then accept them with: npx skill-lock lock ${dir} --update`);
+    log(`Next: review the changes above, then accept them with: npx @mpkk/skill-lock lock ${dir} --update`);
   } else {
     const files = opts.ci === false ? LOCKFILE : `${LOCKFILE} ${WORKFLOW}`;
     log(`Next: commit the lockfile${opts.ci === false ? "" : " and workflow"}: git add ${files} && git commit -m "Lock agent skills"`);

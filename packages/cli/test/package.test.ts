@@ -13,7 +13,7 @@ const run = (...args: string[]) => spawnSync(process.execPath, [bundle, ...args]
 
 describe("npm package", () => {
   it("publishes one file with no runtime dependencies", () => {
-    expect(pkg.name).toBe("skill-lock");
+    expect(pkg.name).toBe("@mpkk/skill-lock");
     expect(pkg.bin).toEqual({ "skill-lock": "dist/skill-lock.js" });
     expect(pkg.dependencies ?? {}).toEqual({});
     expect(pkg.engines.node).toBe(">=22");
@@ -34,7 +34,7 @@ describe.runIf(existsSync(bundle))("bundled CLI", () => {
     for (const args of [[], ["--help"]]) {
       const r = run(...args);
       expect(r.status).toBe(0);
-      expect(r.stdout).toContain("npx skill-lock init");
+      expect(r.stdout).toContain("npx @mpkk/skill-lock init");
     }
   });
   it("prints its version", () => {

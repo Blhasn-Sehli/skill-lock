@@ -25,7 +25,7 @@ runs:
       env:
         SKILL_LOCK_VERSION: 0.1.0
         SKILLS_DIR: ${{ inputs.dir }}
-      run: npx --yes "skill-lock@$SKILL_LOCK_VERSION" verify ${SKILLS_DIR:+"$SKILLS_DIR"}
+      run: npx --yes "@mpkk/skill-lock@$SKILL_LOCK_VERSION" verify ${SKILLS_DIR:+"$SKILLS_DIR"}
 
     - name: Scan skills
       if: (success() || failure()) && inputs.scan == 'true'
@@ -33,4 +33,4 @@ runs:
       env:
         SKILL_LOCK_VERSION: 0.1.0
         SKILLS_DIR: ${{ inputs.dir }}
-      run: npx --yes "skill-lock@$SKILL_LOCK_VERSION" scan ${SKILLS_DIR:+"$SKILLS_DIR"}
+      run: npx --yes "@mpkk/skill-lock@$SKILL_LOCK_VERSION" scan ${SKILLS_DIR:+"$SKILLS_DIR"}

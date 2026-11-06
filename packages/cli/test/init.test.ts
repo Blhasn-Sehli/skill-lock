@@ -46,7 +46,7 @@ describe("init", () => {
     expect(code).toBe(0);
     const lock = JSON.parse(readFileSync(join(cwd, LOCKFILE), "utf8"));
     expect(Object.keys(lock.skills)).toEqual(["demo"]);
-    expect(readFileSync(join(cwd, WORKFLOW), "utf8")).toContain("skill-lock@9.9.9 verify");
+    expect(readFileSync(join(cwd, WORKFLOW), "utf8")).toContain("@mpkk/skill-lock@9.9.9 verify");
     expect(out).toContain("Skills folder: .claude/skills (1 skill)");
     expect(out).toMatch(/Next: commit .*git add skills\.lock\.json \.github\/workflows\/skill-lock\.yml/);
   });
@@ -111,8 +111,8 @@ describe("generated workflow", () => {
     expect(steps.map((s) => s.uses).filter(Boolean)).toEqual(["actions/checkout@v7", "actions/setup-node@v7"]);
     const runs = steps.map((s) => s.run).filter(Boolean);
     expect(runs).toEqual([
-      'npx --yes skill-lock@1.2.3 verify "$SKILLS_DIR"',
-      'npx --yes skill-lock@1.2.3 scan "$SKILLS_DIR"',
+      'npx --yes @mpkk/skill-lock@1.2.3 verify "$SKILLS_DIR"',
+      'npx --yes @mpkk/skill-lock@1.2.3 scan "$SKILLS_DIR"',
     ]);
     expect(steps.at(-1)?.if).toBe("success() || failure()");
   });

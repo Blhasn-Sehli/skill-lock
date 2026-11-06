@@ -3,7 +3,7 @@
 **A lockfile for agent skills: pin every `SKILL.md` folder by content hash, fail CI when one changes, and scan skills for risky content.**
 
 [![CI](https://github.com/Blhasn-Sehli/skill-lock/actions/workflows/ci.yml/badge.svg)](https://github.com/Blhasn-Sehli/skill-lock/actions/workflows/ci.yml)
-[![npm](https://img.shields.io/npm/v/skill-lock)](https://www.npmjs.com/package/skill-lock)
+[![npm](https://img.shields.io/npm/v/@mpkk/skill-lock)](https://www.npmjs.com/package/@mpkk/skill-lock)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Blhasn-Sehli/skill-lock/blob/main/LICENSE)
 
 Agent skills are folders of instructions and scripts that an agent loads and follows. A one-line edit to a skill changes what your agent does, and it is easy to miss in review. skill-lock records a hash of every skill in `skills.lock.json`, so any change to a skill has to come with a visible lockfile change in the same pull request.
@@ -13,7 +13,7 @@ Agent skills are folders of instructions and scripts that an agent loads and fol
 In the root of your repository:
 
 ```bash
-npx skill-lock init
+npx @mpkk/skill-lock init
 ```
 
 `init` finds your skills folder, writes `skills.lock.json` and adds a GitHub workflow that checks every pull request. Then commit both files:
@@ -22,7 +22,7 @@ npx skill-lock init
 git add skills.lock.json .github/workflows/skill-lock.yml && git commit -m "Lock agent skills"
 ```
 
-That is the whole setup. From now on, a pull request that adds, removes or edits a skill fails until the lockfile is updated with `npx skill-lock lock --update`. Needs Node.js 22 or newer.
+That is the whole setup. From now on, a pull request that adds, removes or edits a skill fails until the lockfile is updated with `npx @mpkk/skill-lock lock --update`. Needs Node.js 22 or newer.
 
 ## What the scanner catches
 
@@ -69,10 +69,10 @@ jobs:
         with:
           node-version: 22
       - name: Verify skills match skills.lock.json
-        run: npx --yes skill-lock@0.1.0 verify "$SKILLS_DIR"
+        run: npx --yes @mpkk/skill-lock@0.1.0 verify "$SKILLS_DIR"
       - name: Scan skills
         if: success() || failure()
-        run: npx --yes skill-lock@0.1.0 scan "$SKILLS_DIR"
+        run: npx --yes @mpkk/skill-lock@0.1.0 scan "$SKILLS_DIR"
 ```
 
 It calls the npm package directly, pinned to the exact version that wrote it. That is the more robust choice: a published npm version cannot be replaced, so the check that guards your skills cannot change under you; there is no extra layer (a Git tag to resolve, an action to download); and it needs only Node.js, so the same two commands work on any CI system. To upgrade, change the version in the file. The scan step runs even when verify fails, so one run shows both results.
@@ -89,7 +89,7 @@ If you prefer `uses:`, the same checks are available as a composite action:
     scan: true            # optional; false runs verify only
 ```
 
-The action runs the npm release it pins (`skill-lock@0.1.0` in this version), so both routes run identical code. For the strongest guarantee, pin the action to a commit SHA rather than a tag.
+The action runs the npm release it pins (`@mpkk/skill-lock@0.1.0` in this version), so both routes run identical code. For the strongest guarantee, pin the action to a commit SHA rather than a tag.
 
 ## How hashing works
 

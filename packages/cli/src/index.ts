@@ -18,7 +18,7 @@ folder        defaults to the first of ${SKILL_DIRS.join(", ")} that holds a ski
 --lockfile    lockfile path (default skills.lock.json)
 --no-ci       init only: do not write .github/workflows/skill-lock.yml
 
-Start here: npx skill-lock init`;
+Start here: npx @mpkk/skill-lock init`;
 
 function printDiff(d: LockDiff): void {
   for (const n of d.changed) console.log(`  changed  ${n}`);
@@ -60,7 +60,7 @@ function main(argv: string[]): number {
 
   const root = resolve(dir ?? detectSkillsDir(process.cwd())?.dir ?? SKILL_DIRS[0]);
   if (!existsSync(root)) {
-    console.error(`No such folder: ${root}\nPass the folder that holds your skills, or run "npx skill-lock init".`);
+    console.error(`No such folder: ${root}\nPass the folder that holds your skills, or run "npx @mpkk/skill-lock init".`);
     return 1;
   }
   const lockPath = resolve(values.lockfile ?? "skills.lock.json");
