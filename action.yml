@@ -1,0 +1,36 @@
+name: skill-lock
+description: Fail when an agent skill changed without an updated skills.lock.json, and scan skills for remote code, secrets, suspicious hosts and hidden Unicode.
+author: Blhasn-Sehli
+branding:
+  icon: lock
+  color: blue
+
+inputs:
+  dir:
+    description: Folder that holds the skills. Empty means the first of .claude/skills, .agents/skills, skills that holds a skill.
+    default: ""
+  scan:
+    description: Also run the scanner (true or false). Verify always runs.
+    default: "true"
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v7
+      with:
+        node-version: 22
+
+    - name: Verify skills match skills.lock.json
+      shell: bash
+      env:
+        SKILL_LOCK_VERSION: 0.1.0
+        SKILLS_DIR: ${{ inputs.dir }}
+      run: npx --yes "skill-lock@$SKILL_LOCK_VERSION" verify ${SKILLS_DIR:+"$SKILLS_DIR"}
+
+    - name: Scan skills
+      if: (success() || failure()) && inputs.scan == 'true'
+      shell: bash
+      env:
+        SKILL_LOCK_VERSION: 0.1.0
+        SKILLS_DIR: ${{ inputs.dir }}
+      run: npx --yes "skill-lock@$SKILL_LOCK_VERSION" scan ${SKILLS_DIR:+"$SKILLS_DIR"}

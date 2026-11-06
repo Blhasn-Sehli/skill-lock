@@ -1,2 +1,12 @@
-{ "name": "@skill-lock/core", "version": "0.0.0", "type": "module", "main": "dist/index.js", "types": "dist/index.d.ts",
-  "scripts": { "build": "tsc -p tsconfig.json" } }
+{
+  "name": "@skill-lock/core",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Internal: hashing, lockfile and scanner. Bundled into the skill-lock CLI; not published on its own.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  }
+}

@@ -12,3 +12,8 @@ jobs:
       - run: pnpm build
       - run: pnpm typecheck
       - run: pnpm test
+      - name: Check the npm package
+        working-directory: packages/cli
+        run: |
+          npm pack --dry-run
+          node dist/skill-lock.js --version
